@@ -1,3 +1,4 @@
+from python_speech_features import mfcc
 from fastdtw import fastdtw
 import timeit
 import sounddevice
@@ -70,7 +71,7 @@ def register_person():
     person_name = input()
     print('\tVamos registrar um exemplos de sua voz.')
 
-    voice_sample1 = record_voice_sample()
+    voice_sample1 = mfcc(record_voice_sample(),4000)
     time.sleep(2)
     # print('Ok, vamos para a proxima amostra.')
     # voice_sample2 = VoiceData( record_voice_sample() )
@@ -82,7 +83,7 @@ def register_person():
 
 def single_test():
     print('Vamos iniciar o teste')
-    voice_sample = record_voice_sample()
+    voice_sample = mfcc(record_voice_sample(),4000)
 
     print('\tFazendo comparacoes...')
 
