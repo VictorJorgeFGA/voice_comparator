@@ -5,7 +5,7 @@ import sounddevice
 import soundfile
 import time
 
-SAMPLE_RATE = 4000
+SAMPLE_RATE = 8000
 CHANNELS = 1
 DURATION = 2
 
@@ -71,7 +71,8 @@ def register_person():
     person_name = input()
     print('\tVamos registrar um exemplos de sua voz.')
 
-    voice_sample1 = mfcc(record_voice_sample(),4000)
+    voice_sample1 = mfcc(record_voice_sample(),SAMPLE_RATE)
+    #print('Shape do MFCC =', voice_sample1.shape)
     time.sleep(2)
     # print('Ok, vamos para a proxima amostra.')
     # voice_sample2 = VoiceData( record_voice_sample() )
@@ -83,7 +84,7 @@ def register_person():
 
 def single_test():
     print('Vamos iniciar o teste')
-    voice_sample = mfcc(record_voice_sample(),4000)
+    voice_sample = mfcc(record_voice_sample(),SAMPLE_RATE)
 
     print('\tFazendo comparacoes...')
 
@@ -113,7 +114,3 @@ if __name__ == '__main__':
             break
 
     print('Fim da execucao')
-
-    
-
-    
