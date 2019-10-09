@@ -2,7 +2,7 @@ from python_speech_features import mfcc
 from fastdtw import fastdtw
 import timeit
 import sounddevice
-import soundfile
+#import soundfile
 import time
 
 SAMPLE_RATE = 8000
