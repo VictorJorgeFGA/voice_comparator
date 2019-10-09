@@ -1,6 +1,13 @@
-import librosa
+import sounddevice as sd
 import numpy
 
+'''
+Este filtro remove partes silenciosas do sinal de fala, inclusive pausas.
+Este filtro não se aplica a audio com ruidos de fundo
+É necessário tratar o ruido do audio antes de utilizar este filtro
+'''
+
+#threshold=0.001135
 def rms_filter(data, samplerate=16000, segment_length=None, threshold=0.001135):
     segment_length = int(samplerate/100)
     
@@ -12,11 +19,32 @@ def rms_filter(data, samplerate=16000, segment_length=None, threshold=0.001135):
         mean = numpy.sqrt(numpy.mean(squared_data_slice))
 
         if mean > threshold:
-            numpy.append(filtered_data, data_slice)
+            filtered_data = numpy.append(filtered_data, data_slice)
 
     return filtered_data
 
-data, sr = librosa.load('ex.wav', 16000)
+sd.default.channels = 1
+sd.default.samplerate = 16000
 
-data = rms_filter(data)
-librosa.output.write_wav('ex_filter.wav', data, sr)
+print('Rodando demonstração.')
+
+while True:
+    audio = sd.rec(int(10 * 16000))
+    print('Gravando por 10s.')
+    sd.wait()
+
+    sd.play(audio)
+    print('Reproduzindo audio gravado.')
+    sd.wait()
+
+    if input('Deseja regravar? y/n').lower() == 'y':
+        continue
+
+    audio = rms_filter(audio)
+    sd.play(audio)
+    print('Reproduzindo audio filtrado.')
+    sd.wait()
+
+    if input('Novo teste? y/n').lower() == 'y':
+        continue
+    break
